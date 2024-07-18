@@ -1,0 +1,116 @@
+{
+  "name": "callgraph-dev",
+  "displayName": "callgraph.dev",
+  "description": "Draw interactive graphs from code.",
+  "version": "0.2.0",
+  "engines": {
+    "vscode": "^1.88.0"
+  },
+  "categories": [
+    "Programming Languages",
+    "Visualization"
+  ],
+  "activationEvents": [
+    "onWebviewPanel:callgraphWebview"
+  ],
+  "main": "./out/extension-bundle.js",
+  "publisher": "callgraph-dev",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/callgraph-dev/callgraph.dev"
+  },
+  "contributes": {
+    "commands": [
+      {
+        "command": "callgraph-dev.drawCallgraphForFile",
+        "title": "callgraph.dev: Draw call graph for file"
+      },
+      {
+        "command": "callgraph-dev.drawCallgraphForFolder",
+        "title": "callgraph.dev: Draw call graph for folder"
+      },
+      {
+        "command": "callgraph-dev.expandCallgraphFromSymbol",
+        "title": "callgraph.dev: Expand call graph for symbol"
+      },
+      {
+        "command": "callgraph-dev.drawTypeHierarchyForFile",
+        "title": "callgraph.dev: Draw type hierarchy for file"
+      },
+      {
+        "command": "callgraph-dev.drawTypeHierarchyForFolder",
+        "title": "callgraph.dev: Draw type hierarchy for folder"
+      },
+      {
+        "command": "callgraph-dev.expandTypeHierarchyFromSymbol",
+        "title": "callgraph.dev: Expand type hierarchy for symbol"
+      },
+      {
+        "command": "callgraph-dev.drawFileHierarchyForFolder",
+        "title": "callgraph.dev: Draw file hierarchy for folder"
+      }
+    ],
+    "menus": {
+      "explorer/context": [
+        {
+          "when": "!explorerResourceIsFolder",
+          "command": "callgraph-dev.drawCallgraphForFile",
+          "group": "callgraph-dev"
+        },
+        {
+          "when": "explorerResourceIsFolder",
+          "command": "callgraph-dev.drawCallgraphForFolder",
+          "group": "callgraph-dev"
+        },
+        {
+          "when": "!explorerResourceIsFolder",
+          "command": "callgraph-dev.drawTypeHierarchyForFile",
+          "group": "callgraph-dev"
+        },
+        {
+          "when": "explorerResourceIsFolder",
+          "command": "callgraph-dev.drawTypeHierarchyForFolder",
+          "group": "callgraph-dev"
+        },
+        {
+          "when": "explorerResourceIsFolder",
+          "command": "callgraph-dev.drawFileHierarchyForFolder",
+          "group": "callgraph-dev"
+        }
+      ],
+      "editor/context": [
+        {
+          "when": "editorHasTypeHierarchyProvider",
+          "command": "callgraph-dev.expandTypeHierarchyFromSymbol",
+          "group": "callgraph-dev"
+        },
+        {
+          "when": "editorHasCallHierarchyProvider",
+          "command": "callgraph-dev.expandCallgraphFromSymbol",
+          "group": "callgraph-dev"
+        }
+      ]
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "esbuild src/extension.ts --bundle --minify --platform=node --target=esnext --external:vscode --outfile=./out/extension-bundle.js",
+    "watch": "esbuild src/extension.ts --watch --bundle --minify --platform=node --target=esnext --outfile=./out/extension-bundle.js",
+    "pretest": "npm run compile && npm run lint",
+    "lint": "eslint src --ext ts",
+    "test": "vscode-test",
+    "publish": "vsce publish"
+  },
+  "devDependencies": {
+    "@types/vscode": "^1.88.0",
+    "@types/mocha": "^10.0.6",
+    "@types/node": "18.x",
+    "@typescript-eslint/eslint-plugin": "^7.4.0",
+    "@typescript-eslint/parser": "^7.4.0",
+    "esbuild": "^0.20.0",
+    "eslint": "^8.57.0",
+    "typescript": "^5.3.3",
+    "@vscode/test-cli": "^0.0.8",
+    "@vscode/test-electron": "^2.3.9"
+  }
+}

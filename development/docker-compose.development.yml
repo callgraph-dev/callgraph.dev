@@ -1,0 +1,21 @@
+# Starts up development servers (e.g. watches for file changes and recompiles)
+version: '3'
+services:
+  esbuild:
+    build:
+      context: ..
+      dockerfile: development/esbuild/Dockerfile
+    stdin_open: true
+    tty: true
+    init: true
+    volumes:
+      - ..:/callgraph.dev
+  tailwindcss:
+    build:
+      context: ..
+      dockerfile: development/tailwindcss/Dockerfile
+    stdin_open: true
+    tty: true
+    init: true
+    volumes:
+      - ..:/callgraph.dev
