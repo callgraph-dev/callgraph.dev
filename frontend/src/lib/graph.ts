@@ -1,5 +1,5 @@
 /**
- * Type definitions -- keep in sync with vscodeext/callgraph-dev/src/utils/graph.ts
+ * Type definitions -- keep in sync with backend/src/utils/graph.ts
  */
 
 export interface Node {
@@ -10,6 +10,7 @@ export interface Node {
   filepath: string;
   lineno: number;
   colno: number;
+  hidden: boolean;
 }
 
 export interface Snippet {

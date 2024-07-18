@@ -2,16 +2,15 @@
   "name": "callgraph.dev-frontend",
   "version": "1.0.0",
   "description": "frontend for callgraph.dev",
-  "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "npm run build:html && npm run build:css && npm run build:ts",
     "build:html:this:is:wrong": "mkdir -p ./dist && cp ./static/index.html ./dist/index.html",
     "watch": "docker compose -f ../development/docker-compose.development.yml up",
     "build:css": "tailwindcss -i ./src/tailwind.css -o ../backend/media/react-vscode-bundle.css",
-    "build:ts": "esbuild index.tsx --bundle --minify --platform=browser --target=es2020 --outfile=../backend/media/react-vscode-bundle.js --define:process.env.SERVER_URL=\\\"http://localhost:3000\\\" --define:process.env.FEATURE_FILEEXPLORER=\\\"false\\\" --define:process.env.FEATURE_COMMAND_PALETTE=\\\"false\\\" --define:process.env.FEATURE_VSCODE_EXTENSION=\\\"true\\\"",
+    "build:ts": "esbuild src/index.tsx --bundle --minify --platform=browser --target=es2020 --outfile=../backend/media/react-vscode-bundle.js --define:process.env.SERVER_URL=\\\"http://localhost:3000\\\" --define:process.env.FEATURE_FILEEXPLORER=\\\"false\\\" --define:process.env.FEATURE_COMMAND_PALETTE=\\\"false\\\" --define:process.env.FEATURE_VSCODE_EXTENSION=\\\"true\\\"",
     "watch:css": "tailwindcss --watch -i ./src/tailwind.css -o ../backend/media/react-vscode-bundle.css",
-    "watch:ts": "esbuild index.tsx --watch --bundle --minify --platform=browser --target=es2020 --outfile=../backend/media/react-vscode-bundle.js --define:process.env.SERVER_URL=\\\"http://localhost:3000\\\" --define:process.env.FEATURE_FILEEXPLORER=\\\"false\\\" --define:process.env.FEATURE_COMMAND_PALETTE=\\\"false\\\" --define:process.env.FEATURE_VSCODE_EXTENSION=\\\"true\\\""
+    "watch:ts": "esbuild src/index.tsx --watch --bundle --minify --platform=browser --target=es2020 --outfile=../backend/media/react-vscode-bundle.js --define:process.env.SERVER_URL=\\\"http://localhost:3000\\\" --define:process.env.FEATURE_FILEEXPLORER=\\\"false\\\" --define:process.env.FEATURE_COMMAND_PALETTE=\\\"false\\\" --define:process.env.FEATURE_VSCODE_EXTENSION=\\\"true\\\""
   },
   "author": "Vivek Dasari",
   "license": "MIT",

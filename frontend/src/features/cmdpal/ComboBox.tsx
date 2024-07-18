@@ -3,11 +3,8 @@ import { useDispatch, useSelector } from "react-redux";
 
 import { Text } from "../../components/Text";
 import { AppDispatch, RootState } from "../../store";
-import {
-  scheduleGraph,
-  filterNodesByText,
-  redrawGraph,
-} from "../graph/graphSlice";
+import { cytoscapeRedraw } from "../cytoscape/cytoscapeSlice";
+import { filterNodesByText, scheduleGraph } from "../graph/graphSlice";
 
 import { blurCommandPalette, focusCommandPalette } from "./cmdpalSlice";
 import LoadingBar from "./LoadingBar";
@@ -37,7 +34,7 @@ const firstLoadChoices = [
 const allEffects: { [key: string]: Effect } = {
   "Graph: Redraw": {
     type: "fireevent",
-    action: () => redrawGraph(),
+    action: () => cytoscapeRedraw(),
   },
   "Graph: Use new repository...": {
     type: "updatestate",

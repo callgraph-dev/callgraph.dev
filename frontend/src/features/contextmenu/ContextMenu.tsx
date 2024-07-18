@@ -1,5 +1,6 @@
 import {
   ClientRectObject,
+  Strategy,
   VirtualElement,
   flip,
   offset,
@@ -15,11 +16,10 @@ import {
   cytoscapeCollapseFolder,
   cytoscapeExpandAllFolders,
   cytoscapeExpandFolder,
-  cytoscapeFocusSubgraph,
   cytoscapeHideNode,
-  cytoscapeShowAllHiddenNodes,
   cytoscapeSummarizeAPI,
 } from "../cytoscape/cytoscapeSlice";
+import { revealAllHiddenNodes } from "../graph/graphSlice";
 
 import { hideContextMenu } from "./contextMenuSlice";
 
@@ -28,17 +28,25 @@ type ContextMenuProps = {
   reference: VirtualElement;
 };
 
+interface FloatingStyles {
+  position: Strategy;
+  top: number;
+  left: number;
+  visibility: "visible" | "hidden" | "collapse";
+}
+
 const ContextMenu: React.FC<ContextMenuProps> = ({ children, reference }) => {
-  const { x, y, strategy, refs, update, isPositioned } = useFloating({
-    strategy: "absolute",
-    placement: "bottom-start",
-    middleware: [offset({ mainAxis: 10, crossAxis: -10 }), flip()],
-    elements: {
-      reference,
-    },
-  });
+  const { x, y, strategy, refs, update, isPositioned } =
+    useFloating<HTMLDivElement>({
+      strategy: "absolute",
+      placement: "bottom-start",
+      middleware: [offset({ mainAxis: 10, crossAxis: -10 }), flip()],
+      elements: {
+        reference,
+      },
+    });
   // Style object for the floating element
-  const floatingStyles = {
+  const floatingStyles: FloatingStyles = {
     position: strategy,
     top: y ?? 0,
     left: x ?? 0,
@@ -52,7 +60,11 @@ const ContextMenu: React.FC<ContextMenuProps> = ({ children, reference }) => {
   }, [reference, update]);
 
   return (
-    <div ref={refs.floating} style={floatingStyles} className="z-50">
+    <div
+      ref={refs.floating as React.MutableRefObject<HTMLDivElement | null>}
+      style={floatingStyles}
+      className="z-50"
+    >
       {children}
     </div>
   );
@@ -94,10 +106,12 @@ const MouseContextMenu: React.FC = () => {
 
 export default MouseContextMenu;
 
-const OptionOnClickHandlers: { [key: string]: (dispatch) => () => void } = {
+const OptionOnClickHandlers: {
+  [key: string]: (dispatch: AppDispatch) => () => void;
+} = {
   // Core context menu
   "Reveal all hidden nodes": (dispatch: AppDispatch) => () => {
-    dispatch(cytoscapeShowAllHiddenNodes());
+    dispatch(revealAllHiddenNodes());
     dispatch(hideContextMenu());
   },
   "Expand all folders": (dispatch: AppDispatch) => () => {
@@ -111,10 +125,6 @@ const OptionOnClickHandlers: { [key: string]: (dispatch) => () => void } = {
   // Node context menu
   "Hide node": (dispatch: AppDispatch) => () => {
     dispatch(cytoscapeHideNode());
-    dispatch(hideContextMenu());
-  },
-  "Focus subgraph": (dispatch: AppDispatch) => () => {
-    dispatch(cytoscapeFocusSubgraph());
     dispatch(hideContextMenu());
   },
   "Expand folder": (dispatch: AppDispatch) => () => {

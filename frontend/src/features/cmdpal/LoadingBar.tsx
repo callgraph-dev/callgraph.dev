@@ -1,5 +1,5 @@
 import clsx from "clsx";
-import React from "react";
+
 import { useDispatch, useSelector } from "react-redux";
 
 import { AppDispatch, RootState } from "../../store";

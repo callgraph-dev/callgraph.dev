@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import cytoscape, { Singular } from "cytoscape";
+import cytoscape, { NodeSingular, Singular } from "cytoscape";
+// @ts-expect-error: Missing typedefinitions
 import dagre from "cytoscape-dagre";
 
 import getHeightAndWidth from "../../lib/getHeightAndWidth";
@@ -16,7 +17,11 @@ import {
   internalSetSelected,
   scrollFileIntoView,
 } from "../fileexplorer/fileexplorerSlice";
-import { addExpandedFolders, removeExpandedFolders } from "../graph/graphSlice";
+import {
+  addExpandedFolders,
+  hideNode,
+  removeExpandedFolders,
+} from "../graph/graphSlice";
 import { hideTooltip, showTooltip } from "../tooltip/tooltipSlice";
 import { sendVSCodeMessage } from "../vscodeext/vscodeExtSlice";
 
@@ -217,25 +222,23 @@ export const cytoscapeDraw = createAsyncThunk(
   },
 );
 
-export const cytoscapeHideNode = createAsyncThunk(
-  "cytoscape/hideNode",
-  async () => {
+export const cytoscapeRedraw = createAsyncThunk(
+  "cytoscape/redraw",
+  async (_payload: void) => {
     // @ts-expect-error - cy is a global variable
     const cy: cytoscape.Core = window.cy;
-    const nodes = cy.$("node.context-selected");
-    nodes.removeClass("context-selected");
-    nodes.addClass("hidden");
+    cy.layout({ name: "dagre" }).run();
   },
 );
 
-export const cytoscapeFocusSubgraph = createAsyncThunk(
-  "cytoscape/focusSubgraph",
-  async () => {
+export const cytoscapeHideNode = createAsyncThunk(
+  "cytoscape/hideNode",
+  async (_payload: void, { dispatch }) => {
     // @ts-expect-error - cy is a global variable
     const cy: cytoscape.Core = window.cy;
     const nodes = cy.$("node.context-selected");
     nodes.removeClass("context-selected");
-    cy.elements().not(nodes.closedNeighborhood()).addClass("hidden");
+    dispatch(hideNode(nodes.data("id")));
   },
 );
 
@@ -302,15 +305,6 @@ function getFolderName(fileOrFolder: string): string {
   const folderName = parts.slice(0, -1).join("/");
   return `${folderName}/`;
 }
-
-export const cytoscapeShowAllHiddenNodes = createAsyncThunk(
-  "cytoscape/showAllHiddenNodes",
-  async () => {
-    // @ts-expect-error - cy is a global variable
-    const cy: cytoscape.Core = window.cy;
-    cy.elements().removeClass("hidden");
-  },
-);
 
 // cytoscapeSummarizeAPI
 export const cytoscapeSummarizeAPI = createAsyncThunk(
@@ -463,7 +457,7 @@ function initCytoscape(
           shape: "round-rectangle",
           content: "data(displayName)",
           label: "data(displayName)",
-          width: (node) => getHeightAndWidth(node).width,
+          width: (node: NodeSingular) => getHeightAndWidth(node).width,
           height: (node) => getHeightAndWidth(node).height,
           "border-style": (node) =>
             node.data("type") === "folder" ? "dashed" : "solid",
@@ -575,6 +569,10 @@ function initCytoscape(
   });
   // @ts-expect-error - cy is a global variable
   window.cy = cy;
+
+  cy.nodes()
+    .filter((node) => node.data("hidden") === true)
+    .addClass("hidden");
 
   cy.on("tapstart", function (evt) {
     dispatch(

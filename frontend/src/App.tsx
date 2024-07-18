@@ -1,5 +1,3 @@
-import React from "react";
-
 import ComboBox from "./features/cmdpal/ComboBox";
 import MouseContextMenu from "./features/contextmenu/ContextMenu";
 import Debug from "./features/debug/Debug";
