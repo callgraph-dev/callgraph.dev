@@ -1,65 +1,13 @@
 import * as vscode from "vscode";
 
-/**
- * Type definitions -- keep in sync with client/src/lib/graph.ts
- */
-
-export interface Node {
-  id: string;
-  key: string;
-  type: "file" | "folder" | "symbol";
-  displayName: string;
-  filepath: string;
-  lineno: number;
-  colno: number;
-  hidden: boolean;
-}
-
-export interface Snippet {
-  lineno: number | null;
-  text: string;
-  displayName: string;
-}
-
-export interface Edge {
-  id: string;
-  key: string;
-  source: string;
-  target: string;
-  weight: number;
-  snippets: Snippet[];
-}
-
-export interface Graph {
-  nodes: Node[];
-  edges: Edge[];
-}
-
-// Flattened version of vscode.SymbolInformation/vscode.DocumentSymbol
-export interface CgSymbol {
-  id: string;
-  key: string;
-  name: string;
-  filepath: string;
-  lineno: number;
-  colno: number;
-  kind: string;
-}
-
-// Flattened version of vscode.Location
-export interface CgReference {
-  id: string;
-  key: string;
-  symbolId: string;
-  filepath: string;
-  lineno: number;
-  colno: number;
-}
-
-export interface SymbolsAndReferences {
-  symbols: CgSymbol[];
-  references: CgReference[];
-}
+import {
+  CgReference,
+  CgSymbol,
+  Edge,
+  Graph,
+  Node,
+  SymbolsAndReferences,
+} from "../shared/graph";
 
 /**
  * Helpers

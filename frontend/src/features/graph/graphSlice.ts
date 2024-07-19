@@ -7,7 +7,8 @@ import {
   Graph,
   Node,
   SymbolsAndReferences,
-} from "../../lib/graph";
+} from "../../shared/graph";
+import { Language } from "../../shared/types";
 
 type ScheduleGraphStatusTypes =
   | "Unknown"
@@ -16,9 +17,6 @@ type ScheduleGraphStatusTypes =
   | "Indexing"
   | "Error"
   | "Started";
-
-// Keep in sync with client/src/features/codeviewer/CodeViewer.tsx
-export type Language = "python" | "javascript" | "typescript";
 
 interface DepgraphState {
   nodes: { [key: string]: Node };

@@ -1,3 +1,4 @@
+import { LanguageFn } from "highlight.js";
 import hljs from "highlight.js/lib/core";
 import python from "highlight.js/lib/languages/python";
 import {
@@ -6,12 +7,24 @@ import {
 } from "highlight.js/lib/languages/typescript";
 
 import "highlight.js/styles/github.css";
-import { Snippet } from "../../lib/graph";
+import { Snippet } from "../../shared/graph";
+import { Language } from "../../shared/types";
 
-// Keep in sync with client/src/features/graph/graphSlice.ts
-hljs.registerLanguage("python", python);
-hljs.registerLanguage("javascript", javascript);
-hljs.registerLanguage("typescript", typescript);
+// Define the mapped type for the object
+type LanguageObjectType = {
+  [K in Language]: LanguageFn;
+};
+
+// Create an object with all required keys
+const languagesTypes: LanguageObjectType = {
+  python: python,
+  javascript: javascript,
+  typescript: typescript,
+};
+
+Object.entries(languagesTypes).forEach(([key, value]) => {
+  hljs.registerLanguage(key, value);
+});
 
 interface CodeSnippetProps {
   lineNumber: number | null;

@@ -1,7 +1,8 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { WritableDraft } from "immer";
 
-import { Node, Edge, Graph } from "../../lib/graph";
+import { Edge, Graph, Node } from "../../shared/graph";
 import { RootState } from "../../store";
 import { cytoscapeDraw, cytoscapeTap } from "../cytoscape/cytoscapeSlice";
 import { checkGraphStatus, scheduleGraph } from "../graph/graphSlice";
@@ -173,6 +174,7 @@ const getGraphFromState = (getState: () => unknown): Graph => {
     Object.values(state.graph.nodes)
       .map((node) => {
         return {
+          ...node,
           id: findCollapsedRoot(node.id),
         };
       })
@@ -370,7 +372,9 @@ export const fileexplorerSlice = createSlice({
 
       // Hydrate the root directory from the nodes.
       // Also adds the DirectoryState to the state.
-      const hydrateRootDirectory = (state): Directory => {
+      const hydrateRootDirectory = (
+        state: WritableDraft<FileexplorerState>,
+      ): Directory => {
         const filesystem: Directory = {
           id: root,
           name: root,

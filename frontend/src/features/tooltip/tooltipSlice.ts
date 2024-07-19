@@ -1,7 +1,7 @@
-import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
+import { createSlice } from "@reduxjs/toolkit";
 
-import { Snippet } from "../../lib/graph";
+import { Snippet } from "../../shared/graph";
 
 export interface TooltipState {
   hidden: boolean;

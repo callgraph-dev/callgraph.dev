@@ -4,8 +4,8 @@ import cytoscape, { NodeSingular, Singular } from "cytoscape";
 import dagre from "cytoscape-dagre";
 
 import getHeightAndWidth from "../../lib/getHeightAndWidth";
-import { Edge, Node, Snippet } from "../../lib/graph";
 import { isMetaOrCtrl } from "../../lib/isMetaOrCtrl";
+import { Edge, Node, Snippet } from "../../shared/graph";
 import { AppDispatch, RootState } from "../../store";
 import { setLoadingBarWidth } from "../cmdpal/cmdpalSlice";
 import {

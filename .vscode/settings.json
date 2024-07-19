@@ -3,8 +3,10 @@
     "files.exclude": {
     },
     "search.exclude": {
+        "**/node_modules": true,
         "backend/out": true,
         "backend/media": true,
-        "**/node_modules": true,
+        "backend/src/shared/**": true,
+        "frontend/src/shared/**": true,
     },
 }

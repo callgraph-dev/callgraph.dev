@@ -1,7 +1,3 @@
-/**
- * Type definitions -- keep in sync with backend/src/utils/graph.ts
- */
-
 export interface Node {
   id: string;
   key: string;
@@ -20,6 +16,8 @@ export interface Snippet {
 }
 
 export interface Edge {
+  id: string;
+  key: string;
   source: string;
   target: string;
   weight: number;

@@ -1,13 +1,10 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
-import { Graph, SymbolsAndReferences } from "../../lib/graph";
+import { Graph, SymbolsAndReferences } from "../../shared/graph";
+import { Language } from "../../shared/types";
 import { AppDispatch, RootState } from "../../store";
-import {
-  Language,
-  checkGraphStatus,
-  setGraphLanguage,
-} from "../graph/graphSlice";
+import { checkGraphStatus, setGraphLanguage } from "../graph/graphSlice";
 
 interface VsCodeApi {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -70,7 +67,8 @@ export const VscodeExtSendMessage: React.FC = () => {
 export default VscodeExt;
 
 const handleMessageFromVscodeWithDispatch =
-  (dispatch: AppDispatch) => (event) => {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  (dispatch: AppDispatch) => (event: any) => {
     console.debug(
       "Recieved message from vscode -> client: ",
       event,
