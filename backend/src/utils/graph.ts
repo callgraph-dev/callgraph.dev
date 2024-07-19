@@ -12,7 +12,9 @@ export interface Node {
   filepath: string;
   lineno: number;
   colno: number;
+  hidden: boolean;
 }
+
 export interface Snippet {
   lineno: number | null;
   text: string;
@@ -243,6 +245,7 @@ export class GraphBuilder {
       displayName: displayName,
       lineno: lineno,
       colno: colno,
+      hidden: false,
     };
     if (!this.nodesByKey.has(node.key)) {
       this.nodesByKey.set(node.key, node);

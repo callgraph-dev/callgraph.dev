@@ -49,7 +49,7 @@ export const contextMenuSlice = createSlice({
         state.optionGroups = [
           {
             label: "Graph",
-            options: [{ label: "Focus subgraph" }, { label: "Hide node" }],
+            options: [{ label: "Hide node" }],
           },
           {
             label: "Folder",

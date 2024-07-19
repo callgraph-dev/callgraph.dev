@@ -103,20 +103,20 @@ const depgraphSlice = createSlice({
   name: "depgraph",
   initialState,
   reducers: {
+    hideNode: (state, action: PayloadAction<string>) => {
+      const node = state.nodes[action.payload];
+      if (node !== undefined) {
+        node.hidden = true;
+      }
+    },
+    revealAllHiddenNodes: (state) => {
+      Object.values(state.nodes).forEach((n) => (n.hidden = false));
+    },
     filterNodesByText: (state, action) => {
       const regex = new RegExp(action.payload);
-      // @ts-expect-error - injected by us
-      const cy = window.cy;
-      const filteredNodes = cy.nodes().filter((node) => regex.test(node.id()));
-      const filteredEdges = filteredNodes.connectedEdges();
-      const keep = filteredNodes.union(filteredEdges).show();
-      cy.elements().not(keep).remove();
-      cy.layout({ name: "dagre" }).run();
-    },
-    redrawGraph: () => {
-      // @ts-expect-error - injected by
-      const cy = window.cy;
-      cy.layout({ name: "dagre" }).run();
+      Object.values(state.nodes)
+        .filter((n) => !regex.test(n.filepath))
+        .forEach((n) => (n.hidden = true));
     },
     setGraphLanguage: (state, action: PayloadAction<Language>) => {
       state.language = action.payload;
@@ -203,8 +203,9 @@ const depgraphSlice = createSlice({
 
 // Action creators are generated for each case reducer function
 export const {
+  hideNode,
+  revealAllHiddenNodes,
   filterNodesByText,
-  redrawGraph,
   setGraphLanguage,
   addExpandedFolders,
   removeExpandedFolders,

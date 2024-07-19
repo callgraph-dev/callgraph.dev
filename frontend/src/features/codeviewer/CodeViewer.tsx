@@ -1,8 +1,9 @@
 import hljs from "highlight.js/lib/core";
 import python from "highlight.js/lib/languages/python";
-import javascript from "highlight.js/lib/languages/typescript";
-import typescript from "highlight.js/lib/languages/typescript";
-import React from "react";
+import {
+  default as javascript,
+  default as typescript,
+} from "highlight.js/lib/languages/typescript";
 
 import "highlight.js/styles/github.css";
 import { Snippet } from "../../lib/graph";

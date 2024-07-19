@@ -1,11 +1,10 @@
 // Place your settings in this file to overwrite default and user settings.
 {
     "files.exclude": {
-        "out": false
     },
     "search.exclude": {
-        "out": true,
-        ".vscode-test": true,
+        "backend/out": true,
+        "backend/media": true,
+        "**/node_modules": true,
     },
-    "typescript.tsc.autoDetect": "off"
 }
