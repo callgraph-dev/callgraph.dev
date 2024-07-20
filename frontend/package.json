@@ -10,7 +10,8 @@
     "build:css": "tailwindcss -i ./src/tailwind.css -o ../backend/media/react-vscode-bundle.css",
     "build:ts": "esbuild src/index.tsx --bundle --minify --platform=browser --target=es2020 --outfile=../backend/media/react-vscode-bundle.js --define:process.env.SERVER_URL=\\\"http://localhost:3000\\\" --define:process.env.FEATURE_FILEEXPLORER=\\\"false\\\" --define:process.env.FEATURE_COMMAND_PALETTE=\\\"false\\\" --define:process.env.FEATURE_VSCODE_EXTENSION=\\\"true\\\"",
     "watch:css": "tailwindcss --watch -i ./src/tailwind.css -o ../backend/media/react-vscode-bundle.css",
-    "watch:ts": "esbuild src/index.tsx --watch --bundle --minify --platform=browser --target=es2020 --outfile=../backend/media/react-vscode-bundle.js --define:process.env.SERVER_URL=\\\"http://localhost:3000\\\" --define:process.env.FEATURE_FILEEXPLORER=\\\"false\\\" --define:process.env.FEATURE_COMMAND_PALETTE=\\\"false\\\" --define:process.env.FEATURE_VSCODE_EXTENSION=\\\"true\\\""
+    "watch:ts": "esbuild src/index.tsx --watch --bundle --minify --platform=browser --target=es2020 --outfile=../backend/media/react-vscode-bundle.js --define:process.env.SERVER_URL=\\\"http://localhost:3000\\\" --define:process.env.FEATURE_FILEEXPLORER=\\\"false\\\" --define:process.env.FEATURE_COMMAND_PALETTE=\\\"false\\\" --define:process.env.FEATURE_VSCODE_EXTENSION=\\\"true\\\"",
+    "ladle": "npx ladle serve"
   },
   "author": "Vivek Dasari",
   "license": "MIT",
@@ -31,6 +32,7 @@
     "react-toastify": "^10.0.5"
   },
   "devDependencies": {
+    "@ladle/react": "^4.1.0",
     "@types/cytoscape": "^3.19.16",
     "@types/react": "^18.2.61",
     "@types/react-dom": "^18.2.19",
